@@ -5,7 +5,7 @@
     <button id="event-btn" data-role="button" class="k-button-expand">Create event</button>
     <script>
        
-        var persister = new dataPersister.get("http://localhost:61680/api/");
+        var persister = new dataPersister.get("http://mobileorganizer.apphb.com/api/");
         persister.stuffes.all()
         .then(function (data) {
             console.log(data);

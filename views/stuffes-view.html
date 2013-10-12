@@ -19,7 +19,7 @@
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
 
-        var persister = new dataPersister.get("http://localhost:61680/api/");
+        var persister = new dataPersister.get("http://mobileorganizer.apphb.com/api/");
         persister.stuffes.byDate(day, month, year)
         .then(function (dataStuffes) {
             console.log(dataStuffes);
