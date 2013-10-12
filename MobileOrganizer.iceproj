@@ -117,6 +117,7 @@
     <Content Include="views\create-todo-view.html" />
     <Content Include="views\business-view.html" />
     <Content Include="views\login-register-view.html" />
+    <Content Include="views\stuffes-view.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Resources\" />

@@ -1,0 +1,37 @@
+﻿<div data-role="view" id="stuff-view" data-id="stuff-view"
+    data-layout="main-layout" data-title="Stuff"
+    data-reload="true">
+
+    <ul id="stuffes-list"></ul>
+    <script type="text/x-kendo-template" id="my-template">
+  <h3 class="item-title">#: title #</h3>
+    </script>
+
+    <script type="text/x-kendo-template" id="header-template">
+    #: type #
+</script>
+    <script>
+        var url = document.URL;
+        var sep = url.split('date=')[1];
+
+        var date = new Date(sep);
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        var persister = new dataPersister.get("http://localhost:61680/api/");
+        persister.stuffes.byDate(day, month, year)
+        .then(function (dataStuffes) {
+            console.log(dataStuffes);
+            $("#stuffes-list").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({ data: dataStuffes, group: "type" }),
+                template: $("#my-template").html(),
+                headerTemplate: $("#header-template").html(),
+                fixedHeaders: true
+            });
+
+        });
+    </script>
+
+    
+</div>

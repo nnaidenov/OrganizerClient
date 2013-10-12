@@ -24,7 +24,7 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/create-todo-view-model.js"></script>
     <script src="scripts/login-register-view-model.js"></script>
-    <script src="scripts/connection.js"></script>
+    <!--<script src="scripts/connection.js"></script>-->
 
 </head>
 <body>
@@ -56,20 +56,43 @@
     <div id="modalview-createToDo" data-role="modal-view"></div>
 
     <script>
-        $(function () {
+        document.addEventListener("deviceready", function () {
+            if (navigator.connection.type == "none") {
+                alert("No network connection!");
+            }
+
+            var connectionCounter = 0;
+
+            setInterval(function () {
+                if (navigator.connection.type == "none") {
+                    if (connectionCounter >= 10) {
+                        alert("No network connection!");
+                        connectionCounter = 0;
+                    } else {
+                        connectionCounter++;
+                    }
+                }
+                else {
+                    connectionCounter = 0;
+                }
+            }, 1000);
+     
             $("#business-btn").on("click", function () {
+                console.log("click");
                 app.application.navigate("views/business-view.html#business-view");
             });
 
-            window.seeDate = function (e) {
-                var ev = e.view.params;
+            //window.seeDate = function (e) {
+            //    var ev = e.view.params;
 
-                $("#date").text(ev.date);
-            }
+            //    $("#date").text(ev.date);
+            //}
 
             if (localStorage.getItem("sessionKey") == null || localStorage.getItem("sessionKey").length < 0) {
-                setTimeout(function () { app.application.navigate("views/login-register-view.html#login-register-view"); }, 500);
+                app.application.navigate("views/login-register-view.html#login-register-view");
             }
+
+
         });
     </script>
 </body>

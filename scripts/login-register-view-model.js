@@ -13,6 +13,7 @@
     }
 
     function register() {
+        app.application.pane.loader.show();
         var errorsText = "";
         var isValidModel = true;
 
@@ -29,6 +30,7 @@
         if (isValidModel) {
             persister.users.register(this.get("password"), this.get("email"))
             .then(function (data) {
+                app.application.pane.loader.hide();
                 app.application.navigate("index.html#home-view");
             }, function (data) {
                 $(".validationError").text(data.responseText);
@@ -41,10 +43,11 @@
     }
 
     function login() {
+        app.application.pane.loader.show();
         persister.users.login(this.get("email"), this.get("password"))
         .then(function (data) {
-            $("#modalview-login").data("kendoMobileModalView").close();
-            $("#modalview-next-login").data("kendoMobileModalView").open();
+            app.application.pane.loader.hide();
+            app.application.navigate("index.html#home-view");
         }, function (err) {
             console.log(err);
             $(".validationError").html(err.responseText);

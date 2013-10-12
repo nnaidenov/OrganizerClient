@@ -4,45 +4,46 @@
     <button id="todo-btn" data-role="button" class="k-button-expand">Create To Do</button>
     <button id="event-btn" data-role="button" class="k-button-expand">Create event</button>
     <script>
-        var today = new Date(),
-                        events = [
-                           +new Date(today.getFullYear(), today.getMonth(), 8),
-                           +new Date(today.getFullYear(), today.getMonth(), 12),
-                           +new Date(today.getFullYear(), today.getMonth(), 24),
-                           +new Date(today.getFullYear(), today.getMonth() + 1, 6),
-                           +new Date(today.getFullYear(), today.getMonth() + 1, 7),
-                           +new Date(today.getFullYear(), today.getMonth() + 1, 25),
-                           +new Date(today.getFullYear(), today.getMonth() + 1, 27),
-                           +new Date(today.getFullYear(), today.getMonth() - 1, 3),
-                           +new Date(today.getFullYear(), today.getMonth() - 1, 5),
-                           +new Date(today.getFullYear(), today.getMonth() - 2, 22),
-                           +new Date(today.getFullYear(), today.getMonth() - 2, 27)
-                        ];
-        $("#calendar").kendoCalendar({
-            //change: onChange,
-            value: today,
-            dates: events,
-            month: {
-                content: '# if ($.inArray(+data.date, data.dates) != -1) { #' +
-                                '<div class="' +
-                                   '# if (data.value < 10) { #' +
-                                       "exhibition" +
-                                   '# } else if ( data.value < 20 ) { #' +
-                                       "party" +
-                                   '# } else { #' +
-                                       "cocktail" +
-                                   '# } #' +
-                                '">#= data.value #</div>' +
-                             '# } else { #' +
-                             '#= data.value #' +
-                             '# } #'
-            },
-            footer: false
-        });
+       
+        var persister = new dataPersister.get("http://localhost:61680/api/");
+        persister.stuffes.all()
+        .then(function (data) {
+            console.log(data);
+            var events = [];
+            var today = new Date();
+            for (var i in data) {
+                var date = data[i];
+                var event = +new Date(today.getFullYear() + date.Year, today.getMonth() + date.Mount, date.Day);
+                events.push(event);
+             
+            }
+          
+            $("#calendar").kendoCalendar({
+                change: onChange,
+                value: today,
+                dates: events,
+                month: {
+                    content: '# if ($.inArray(+data.date, data.dates) != -1) { #' +
+                                    '<div class="' +
+                                       '# if (data.value < 10) { #' +
+                                           "exhibition" +
+                                       '# } else if ( data.value < 20 ) { #' +
+                                           "party" +
+                                       '# } else { #' +
+                                           "cocktail" +
+                                       '# } #' +
+                                    '">#= data.value #</div>' +
+                                 '# } else { #' +
+                                 '#= data.value #' +
+                                 '# } #'
+                },
+                footer: false
+            });
+        });       
 
         function onChange(e) {
             var calendar = $("#calendar").data("kendoCalendar").current();
-            app.application.navigate("#stuffes-view?date=" + calendar);
+            app.application.navigate("views/stuffes-view.html#stuffes-view?date=" + calendar);
         }
 
         $("#todo-btn").on("click", function () {

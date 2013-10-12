@@ -1,8 +1,6 @@
-﻿var app = app || {};
-
-(function (a) {
+﻿(function (a) {
     var persister = new dataPersister.get("http://mobileorganizer.apphb.com/api/");
-
+ 
     var viewModel = kendo.observable({
         title: "dsds",
         description: "",
@@ -15,6 +13,7 @@
     }
 
     function createTodo() {
+        app.application.pane.loader.show();
         $("loaderCreate").css("display", "");
         setTimeout(function () { }, 2500);
         var errorsText = "";
@@ -39,6 +38,7 @@
             $(".validationError").html("");
             persister.todos.create(this.get("title"), this.get("description"), this.get("todoDate"), "business")
             .then(function (data) {
+                app.application.pane.loader.hide();
                 navigator.notification.alert("Created!");
                 viewModel.set("title", "");
                 viewModel.set("description", "");

@@ -84,11 +84,38 @@
         }
     });
 
+    var StuffesPersister = Class.create({
+        init: function (apiUrl) {
+            this.apiUrl = apiUrl;
+        },
+        all: function () {
+            var sessionKey = localStorage.getItem("sessionKey");
+
+            if (sessionKey != "") {
+                var headers = {
+                    "X-sessionKey": sessionKey
+                };
+                return httpRequester.getJSON(this.apiUrl + "/all", headers);
+            }
+        },
+        byDate: function (day, month, year) {
+            var sessionKey = localStorage.getItem("sessionKey");
+
+            if (sessionKey != "") {
+                var headers = {
+                    "X-sessionKey": sessionKey
+                };
+                return httpRequester.getJSON(this.apiUrl + "/byDate/" + day + "/" + month + "/" + year, headers);
+            }
+        }
+    });
+
     var MainPersister = Class.create({
         init: function (rootUrl) {
             this.rootUrl = rootUrl;
             this.users = new UsersPersister(rootUrl + "users");
             this.todos = new TodosPersister(rootUrl + "todos");
+            this.stuffes = new StuffesPersister(rootUrl + "stuffes");
         }
     });
 
