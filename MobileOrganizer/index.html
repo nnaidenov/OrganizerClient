@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <link href="styles/main.css" rel="stylesheet" />
+
+    <script src="cordova.js"></script>
+    <script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/kendo.web.min.js"></script>
+    <script src="kendo/js/kendo.mobile.min.js"></script>
+
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.black.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+
+    <script src="scripts/class.js"></script>
+    <script src="scripts/CryptoJS.js"></script>
+    <script src="scripts/rsvp.js"></script>
+    <script src="scripts/requester.js"></script>
+    <script src="scripts/data.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/create-todo-view-model.js"></script>
+    <script src="scripts/login-register-view-model.js"></script>
+    <script src="scripts/connection.js"></script>
+
+</head>
+<body>
+    <div id="main-layout" data-role="layout" data-id="main-layout">
+        <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="title-view">Home</span>
+            </div>
+        </header>
+
+        <div data-role="footer">
+            <div data-role="tabstrip">
+                <a href="#home-view" data-icon="home">Home </a>
+                <a href="#events-view" data-icon="home">Events </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="home-view" data-role="view" data-id="home-view" data-layout="main-layout" data-title="Home"
+        data-transition="slide">
+        <button id="business-btn" data-role="button" class="k-button-expand">Business</button>
+    </div>
+
+    <div id="stuffes-view" data-role="view" data-id="stuffes-view" data-layout="main-layout" data-title="stuffes"
+        data-transition="slide" data-show="seeDate">
+        <div id="date"></div>
+    </div>
+
+    <div id="modalview-createToDo" data-role="modal-view"></div>
+
+    <script>
+        $(function () {
+            $("#business-btn").on("click", function () {
+                app.application.navigate("views/business-view.html#business-view");
+            });
+
+            window.seeDate = function (e) {
+                var ev = e.view.params;
+
+                $("#date").text(ev.date);
+            }
+
+            if (localStorage.getItem("sessionKey") == null || localStorage.getItem("sessionKey").length < 0) {
+                setTimeout(function () { app.application.navigate("views/login-register-view.html#login-register-view"); }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
+
